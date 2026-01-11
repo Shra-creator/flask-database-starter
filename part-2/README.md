@@ -14,6 +14,7 @@ Full CRUD operations (Create, Read, Update, Delete) with HTML forms
 - Complete part-1 first
 - Understand basic database connection
 
+
 ## How to Run
 ```bash
 cd part-2

@@ -17,7 +17,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Required for flash messages
+app.secret_key = 'secret123'# Required for flash messages
 
 DATABASE = 'students.db'
 
@@ -54,6 +54,16 @@ def add_student():
         course = request.form['course']
 
         conn = get_db_connection()
+            # 🔍 Check if email already exists
+        existing_student = conn.execute(
+            "SELECT * FROM students WHERE email = ?",
+            (email,)
+        ).fetchone()
+
+        if existing_student:
+            conn.close()
+            flash('Email already exists!', 'error')
+            return redirect(url_for('index'))
         conn.execute(
             'INSERT INTO students (name, email, course) VALUES (?, ?, ?)',
             (name, email, course)
@@ -71,12 +81,27 @@ def add_student():
 # READ - Display all students
 # =============================================================================
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
+    search_name = request.args.get('name', '')
+
     conn = get_db_connection()
-    students = conn.execute('SELECT * FROM students ORDER BY id DESC').fetchall()  # Newest first
+
+    if search_name:
+        students = conn.execute(
+            "SELECT * FROM students WHERE name LIKE ?",
+            (f'%{search_name}%',)
+        ).fetchall()
+    else:
+        students = conn.execute(
+            "SELECT * FROM students"
+        ).fetchall()
+
     conn.close()
-    return render_template('index.html', students=students)
+    return render_template('index.html',
+                           students=students,
+                           search_name=search_name)
+
 
 
 # =============================================================================
@@ -121,6 +146,7 @@ def delete_student(id):
 
     flash('Student deleted!', 'danger')  # Show delete message
     return redirect(url_for('index'))
+
 
 
 if __name__ == '__main__':
