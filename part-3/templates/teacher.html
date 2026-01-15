@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teachers</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f0f4f8; }
+        h1 { color: #2c3e50; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 15px; color: #3498db; text-decoration: none; font-weight: bold; }
+        .btn { display: inline-block; padding: 12px 24px; background: #27ae60; color: white; text-decoration: none; border-radius: 4px; }
+        .teacher-card { background: white; padding: 20px; margin: 15px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .teacher-card h3 { margin: 0 0 10px 0; color: #9b59b6; }
+        .teacher-card p { color: #666; margin: 5px 0; }
+        .btn { display: inline-block; padding: 8px 16px; text-decoration: none; border-radius: 4px; margin: 2px; }
+        .btn-add { background: #27ae60; color: white; padding: 12px 24px; }
+        .btn-edit { background: #3498db; color: white; }
+        .btn-delete { background: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+
+<h1>Teachers</h1>
+
+<nav>
+    <a href="{{ url_for('index') }}">Students</a> 
+    <a href="{{ url_for('courses') }}">Courses</a> 
+    <a href="{{ url_for('teachers') }}">Teachers</a>
+</nav>
+
+<br>
+
+<a href="{{ url_for('add_teacher') }}" class="btn btn-add">+ Add Teacher</a>
+
+<hr>
+
+{% for teacher in teachers %}
+    <div class="teacher-card">
+        <p>
+            <strong>{{ teacher.name }}</strong> —
+            {{ teacher.subject_expert }}
+
+            |
+            <a href="{{ url_for('edit_teacher', id=teacher.id) }}" class="btn btn-edit">Edit</a>
+            |
+            <a href="{{ url_for('delete_teacher', id=teacher.id) }} " class="btn btn-delete"
+            onclick="return confirm('Delete this teacher?')">Delete</a>
+        </p>
+
+    </div>
+{% else %}
+    <p>No teachers found.</p>
+{% endfor %}
+
+</body>
+</html>
