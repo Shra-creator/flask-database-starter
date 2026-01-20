@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Author & Book Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="header">
+    <h2>📚 Author & Book Dashboard</h2>
+    <div class="nav">
+        <button onclick="showAuthors()">Authors</button>
+        <button onclick="showBooks()">Books</button>
+    </div>
+</div>
+
+<div id="authors" class="section">
+    <div class="card">
+        <h3>Add Author</h3>
+        <input id="auth_name" placeholder="Name">
+        <input id="auth_city" placeholder="City">
+        <input id="auth_bio" placeholder="Bio">
+        <button class="action" onclick="addAuthor()">Save Author</button>
+    </div>
+    <div class="card">
+        <h3>Author List</h3>
+        <div id="authorList"></div>
+    </div>
+</div>
+
+<div id="books" class="section">
+    <div class="card">
+        <h3>Add Book</h3>
+        <input id="book_title" placeholder="Title">
+        <input id="book_year" placeholder="Year">
+        <input id="book_isbn" placeholder="ISBN">
+        <select id="book_author_id"></select>
+        <button class="action" onclick="addBook()">Save Book</button>
+    </div>
+    <div class="card">
+        <h3>Book List</h3>
+        <div id="bookList"></div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='code.js') }}"></script>
+<script>
+function showAuthors() {
+    document.getElementById("authors").style.display = "block";
+    document.getElementById("books").style.display = "none";
+    loadAuthors();
+}
+
+function showBooks() {
+    document.getElementById("authors").style.display = "none";
+    document.getElementById("books").style.display = "block";
+
+    loadAuthors(); // 🔥 IMPORTANT: refresh dropdown
+    loadBooks();
+}
+
+showAuthors();
+</script>
+
+
+</body>
+</html>

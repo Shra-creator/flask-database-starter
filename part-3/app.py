@@ -97,11 +97,12 @@ def delete_student(id):
 
 @app.route('/add-course', methods=['GET', 'POST'])
 def add_course():
-    teachers = Teacher.query.all()
+    teachers = Teacher.query.all()  # Get all teachers for the dropdown
+
     if request.method == 'POST':
         name = request.form['name']
         description = request.form.get('description', '')
-        teacher_id = request.form['teacher_id']
+        teacher_id = request.form['teacher_id']  # Make sure the form has this field
 
         new_course = Course(name=name, description=description, teacher_id=teacher_id)
         db.session.add(new_course)
@@ -111,6 +112,7 @@ def add_course():
         return redirect(url_for('courses'))
 
     return render_template('add_course.html', teachers=teachers)
+
 
 @app.route('/teachers')
 def teachers():

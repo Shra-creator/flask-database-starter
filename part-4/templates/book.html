@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Books</title>
+</head>
+<body>
+
+<h2>Books</h2>
+
+<input id="title" placeholder="Title">
+<input id="year" placeholder="Year">
+<input id="isbn" placeholder="ISBN">
+<input id="author_id" placeholder="Author ID">
+<button onclick="addBook()">Add Book</button>
+
+<ul id="bookList"></ul>
+
+<script>
+const API = "http://127.0.0.1:5000/api";
+
+function loadBooks() {
+    fetch(`${API}/books`)
+        .then(res => res.json())
+        .then(data => {
+            const ul = document.getElementById("bookList");
+            ul.innerHTML = "";
+            data.books.forEach(b => {
+                ul.innerHTML += `
+                    <li>
+                        ${b.title} - ${b.author}
+                        <button onclick="deleteBook(${b.id})">Delete</button>
+                    </li>
+                `;
+            });
+        });
+}
+
+function addBook() {
+    fetch(`${API}/books`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            title: title.value,
+            year: year.value,
+            isbn: isbn.value,
+            author_id: author_id.value
+        })
+    }).then(loadBooks);
+}
+
+function deleteBook(id) {
+    fetch(`${API}/books/${id}`, { method: "DELETE" })
+        .then(loadBooks);
+}
+
+loadBooks();
+</script>
+
+</body>
+</html>

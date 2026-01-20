@@ -1,0 +1,146 @@
+/* ================= GLOBAL ================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1f2933;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    background: linear-gradient(135deg, #4338ca, #6366f1);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.nav button {
+    background: white;
+    color: #4338ca;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav button:hover {
+    background: #e0e7ff;
+    transform: translateY(-1px);
+}
+
+/* ================= SECTIONS ================= */
+
+.section {
+    display: none;
+    margin-top: 25px;
+}
+
+/* ================= CARDS ================= */
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #4338ca;
+}
+
+/* ================= INPUTS ================= */
+
+input, select {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 8px 0 14px;
+    border-radius: 8px;
+    border: 1px solid #c7d2fe;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.2);
+}
+
+/* ================= BUTTONS ================= */
+
+button {
+    cursor: pointer;
+}
+
+button.action {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: background 0.2s ease;
+}
+
+button.action:hover {
+    background: #4338ca;
+}
+
+.card button {
+    background: #eef2ff;
+    color: #4338ca;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    margin-right: 6px;
+    transition: all 0.2s ease;
+}
+
+.card button:hover {
+    background: #c7d2fe;
+}
+
+/* ================= LIST LAYOUT ================= */
+
+#authorList .card,
+#bookList .card {
+    border-left: 6px solid #6366f1;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 700px) {
+    .header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+
+    .nav button {
+        margin-left: 0;
+        margin-right: 6px;
+    }
+}

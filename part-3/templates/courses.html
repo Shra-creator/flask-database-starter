@@ -38,7 +38,7 @@
     {% for course in courses %}
     <div class="course-card">
         <h3>{{ course.name }} 
-            <p>Teacher :  {{ course.teacher.name }}</p>
+            <p> Teacher :  {{ course.teacher.name }}</p>
         </h3>
         <p>{{ course.description or 'No description' }}</p>
         <p>
