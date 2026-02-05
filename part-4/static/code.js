@@ -33,24 +33,25 @@ function loadAuthors() {
 }
 
 function addAuthor() {
-    fetch(`${API}/authors`, {
+    fetch("http://127.0.0.1:5000/api/authors", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            name: document.getElementById("auth_name").value,
-            city: document.getElementById("auth_city").value,
-            bio: document.getElementById("auth_bio").value
+            name: auth_name.value,
+            city: auth_city.value,
+            bio: auth_bio.value
         })
     })
     .then(res => res.json())
     .then(() => {
-        document.getElementById("auth_name").value = "";
-        document.getElementById("auth_city").value = "";
-        document.getElementById("auth_bio").value = "";
-
-        showAuthors();   // 🔥 THIS WAS MISSING
+        loadAuthors();   // 🔁 REFRESH GET AUTHORS
+        loadAuthorDropdown(); 
+        auth_name.value = "";
+        auth_city.value = "";
+        auth_bio.value = "";
     });
 }
+
 
 
 function deleteAuthor(id) {
@@ -69,6 +70,23 @@ function editAuthor(id) {
         body: JSON.stringify({ name, city, bio })
     }).then(() => loadAuthors());
 }
+
+function loadAuthorDropdown() {
+    fetch("http://127.0.0.1:5000/api/authors")
+        .then(res => res.json())
+        .then(data => {
+            const select = document.getElementById("book_author_id");
+
+            select.innerHTML = `<option value="">Select Author</option>`;
+
+            data.authors.forEach(a => {
+                select.innerHTML += `
+                    <option value="${a.id}">${a.name}</option>
+                `;
+            });
+        });
+}
+
 
 /* ================= BOOKS ================= */
 

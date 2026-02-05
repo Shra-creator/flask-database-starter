@@ -18,12 +18,13 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv  # Load .env file
+from sqlalchemy.exc import OperationalError
 
 # Load environment variables from .env file
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY', 'fallback-secret-key')  # Get from env or use fallback
+app.secret_key = os.getenv('SECRET_KEY', 'fallback-key')  # Get from env or use fallback
 
 # =============================================================================
 # DATABASE CONFIGURATION
@@ -31,7 +32,7 @@ app.secret_key = os.getenv('SECRET_KEY', 'fallback-secret-key')  # Get from env 
 
 # Get database URL from environment variable
 # Falls back to SQLite if not set
-DATABASE_URL = os.getenv('DATABASE_URL', 'sqlite:///default.db')
+DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:shra@2003@localhost:1975/flask_demo1')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -112,19 +113,32 @@ def delete_product(id):
 # =============================================================================
 
 def init_db():
-    with app.app_context():
-        db.create_all()
-        print(f'Database initialized! Using: {DATABASE_URL}')
+    try:
+        with app.app_context():
+            db.create_all()
+            print(f"✅ Database initialized successfully!")
+            print(f"Using database: {DATABASE_URL}")
 
-        if Product.query.count() == 0:
-            sample = [
-                Product(name='Laptop', price=999.99, stock=10, description='High-performance laptop'),
-                Product(name='Mouse', price=29.99, stock=50, description='Wireless mouse'),
-                Product(name='Keyboard', price=79.99, stock=30, description='Mechanical keyboard'),
-            ]
-            db.session.add_all(sample)
-            db.session.commit()
-            print('Sample products added!')
+            if Product.query.count() == 0:
+                sample = [
+                    Product(name='Laptop', price=999.99, stock=10, description='High-performance laptop'),
+                    Product(name='Mouse', price=29.99, stock=50, description='Wireless mouse'),
+                    Product(name='Keyboard', price=79.99, stock=30, description='Mechanical keyboard'),
+                ]
+                db.session.add_all(sample)
+                db.session.commit()
+                print("✅ Sample products added!")
+
+    except OperationalError as e:
+        print("❌ Database connection failed!")
+        print("Reason:", e)
+        print("\nCheck the following:")
+        print("- PostgreSQL server is running")
+        print("- Username and password are correct")
+        print("- Port number is correct")
+        print("- Database exists")
+
+
 
 
 if __name__ == '__main__':
