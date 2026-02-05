@@ -27,7 +27,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', 'fallback-key')  # Get from env or use fallback
 
 # =============================================================================
-# DATABASE CONFIGURATION
+# DATABASE CONFIGURATION 
 # =============================================================================
 
 # Get database URL from environment variable
